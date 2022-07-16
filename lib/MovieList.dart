@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MovieList extends StatelessWidget {
@@ -32,25 +33,109 @@ class MovieList extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(itemBuilder: (context, index) => Container(
-                      height: 100,
-                      width: 100,
-                      margin: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text("${scroll[index]}"),
-                      ),
-                    )),
-                  )
-                ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Container(
+                width: 50,
+                height: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color(0xff1A6350),
+                ),
+                child: Center(
+                  child: Text(
+                    'ALL',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Roboto',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          )
+              Container(
+                width: 50,
+                height: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color(0xff1A6350),
+                ),
+                child: Center(
+                  child: Text(
+                    'Movie',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Roboto',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                width: 50,
+                height: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color(0xff1A6350),
+                ),
+                child: Center(
+                  child: Text(
+                    'Songs',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Roboto',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                width: 50,
+                height: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color(0xff1A6350),
+                ),
+                child: Center(
+                  child: Text(
+                    'List',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Roboto',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Container(
+          //   child: SingleChildScrollView(
+          //     child: Column(
+          //       children: [
+          //         SizedBox(
+          //           height: 75,
+          //           child: ListView.builder(itemBuilder: (context, index) => Container(
+          //             height: 50,
+          //             width: 50,
+          //             margin: EdgeInsets.all(10),
+          //             child: Center(
+          //               child: Row(
+          //                 children: [
+          //                   CircleAvatar(
+          //                     radius: 20,
+          //                       child: Text("${scroll[index]}")),
+          //                 ],
+          //               ),
+          //             ),
+          //           )),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
