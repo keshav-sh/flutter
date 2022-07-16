@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movie/MovieList.dart';
+import 'package:movie/anotherhelper.dart';
 import 'package:movie/helper.dart';
 import 'package:movie/view.dart';
+import 'package:tmdb_api/tmdb_api.dart';
+
 
 
 
@@ -16,9 +19,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _currentindex =0;
   var children =
   [
-    HomePage(trending: [
-
-    ],),
+    HomePage(),
     MovieList(),
     View(),
   ];
@@ -66,71 +67,66 @@ class _BottomNavigationState extends State<BottomNavigation> {
   }
 }
 
-class HomePage extends StatelessWidget {
-   final List trending;
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-   const HomePage({super.key, required this.trending});
-  
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final String apikey = '8bed60782fa09b932fcbd748a06c8320';
+  final String readaccesstoken =
+      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YmVkNjA3ODJmYTA5YjkzMmZjYmQ3NDhhMDZjODMyMCIsInN1YiI6IjYyYzNjZWVlNmEzMDBiMDA0YzU1OTUxZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bihAXAF0DvelkEWs-_IGuXEWbgd6AmXpu__tz42WcRM';
+  List trendingmovies = [];
+  List topratedmovies = [];
+  List tv = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadmovies();
+  }
+
+  loadmovies() async {
+    TMDB tmdbWithCustomLogs = TMDB(
+      ApiKeys(apikey, readaccesstoken),
+      logConfig: ConfigLogger(
+        showLogs: true,
+        showErrorLogs: true,
+      ),
+    );
+
+    Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
+    Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
+    Map tvresult = await tmdbWithCustomLogs.v3.tv.getPouplar();
+    print((trendingresult));
+    setState(() {
+      trendingmovies = trendingresult['results'];
+      topratedmovies = topratedresult['results'];
+      tv = tvresult['results'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start ,
-        children: [
-          Text('Trending Movies',style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 26,
-            color: Colors.black,
-          ),),
+    return Scaffold(
+        backgroundColor: Color(0xff1A6350),
 
-          Container(
-            height: 270,
-            child: ListView.builder(
-              shrinkWrap: true,
-                itemCount: trending.length,itemBuilder: (context, index){
-                  return InkWell(
-                    onTap: (){
+        body: ListView(
+          children: [
 
-                    },
-                    child: Container(
-                      width: 140,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://image.tmdb.org/t/p/w500/' +
-                                        trending[index]['poster_path']),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              trending[index]['title'] != null
-                                  ? trending[index]['title']
-                                  : 'Loading',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Roboto',
-                                fontSize: 14,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-          ),
-        ],
-      ),
-    );
+            TrendingMovies(
+              trending: trendingmovies,
+            ),
+            TopRatedMovies(
+              toprated: topratedmovies,
+            ),
+          ],
+        ));
   }
 }
+
 
 // class HomePage extends StatefulWidget {
 //   const HomePage({Key? key}) : super(key: key);
